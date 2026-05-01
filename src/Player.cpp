@@ -1,8 +1,10 @@
 #include "Player.h"
 
-Player::Player(std::string name, int health, int hunger, int level, int xp, int xpTilNextLevel, int score, int gold, int damage, int armor, bool hasScriptures)
-	: name(name), health(health), hunger(hunger), level(level), xp(xp), xpTilNextLevel(xpTilNextLevel), score(score), gold(gold), damage(damage), armor(armor), 
-	hasScriptures(hasScriptures) {};
+Player::Player(std::string name, int health, int hunger, int level, int xp, int xpTilNextLevel, int score, int gold, int damage, int armor, bool hasScriptures,
+	std::list<std::string> inventory, int maxHealth)
+	: name(name), health(health), hunger(hunger), level(level), xp(xp), xpTilNextLevel(xpTilNextLevel), score(score), gold(gold), damage(damage), armor(armor),
+	hasScriptures(hasScriptures), inventory(inventory), maxHealth(maxHealth) {
+};
 
 int Player::getHealth() {
 	return health;
@@ -64,7 +66,7 @@ void Player::levelUp() {
 	if (xp >= xpTilNextLevel) {
 		xpTilNextLevel = xpTilNextLevel * 2;
 		level++;
-		health = health + 100;
+		maxHealth = maxHealth + 10;
 		damage = damage + 20;
 	}
 }
@@ -91,4 +93,24 @@ void Player::takeScriptures() {
 
 void Player::giveXp(int points) {
 	xp = xp + points;
+}
+
+std::list<std::string>& Player::getInventory() {
+	return inventory;
+}
+
+void Player::addToInventory(std::string item) {
+	inventory.push_front(item);
+}
+
+void Player::removeFromInventory(const std::string& item) {
+	inventory.remove(item);
+}
+
+void Player::addMaxHealth(int points) {
+	maxHealth = maxHealth + points;
+}
+
+int Player::getMaxHealth() {
+	return maxHealth;
 }
